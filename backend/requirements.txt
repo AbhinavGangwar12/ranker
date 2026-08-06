@@ -20,12 +20,14 @@ psycopg-pool
 
 # --- Auth ---
 passlib[bcrypt]
+bcrypt<4.1                 # passlib's backend detection breaks on bcrypt 4.1+ (missing __about__ attr)
 python-jose[cryptography]
 python-multipart          # needed for OAuth2PasswordRequestForm / form-based login
 
 # --- Config ---
 pydantic
 pydantic-settings
+email-validator            # required for pydantic's EmailStr (used in schemas/auth.py)
 python-dotenv
 
 # --- Rate limiting ---
