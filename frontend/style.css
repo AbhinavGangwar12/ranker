@@ -1,0 +1,40 @@
+body {
+    background-color: #faf3ea;
+    color: #2b2f3a;
+    overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #faf3ea;
+}
+::-webkit-scrollbar-thumb {
+    background: #e8dcc8;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #2f7d6b;
+}
+
+/* Header glass utility (soft, warm tone) */
+.glass {
+    background: rgba(250, 243, 234, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid #e8dcc8;
+}
+
+/* Soft card used for leaderboard rows */
+.soft-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(43, 47, 58, 0.06);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.soft-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(43, 47, 58, 0.1);
+}

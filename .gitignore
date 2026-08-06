@@ -1,0 +1,6 @@
+*.env
+frontend/Dockerfile
+frontend/node_modules
+backend/Dockerfile
+backend/.venv
+backend/venv

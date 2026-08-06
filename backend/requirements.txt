@@ -1,0 +1,39 @@
+# --- Web framework ---
+fastapi
+uvicorn[standard]
+
+# --- Agent orchestration ---
+langgraph
+langgraph-checkpoint-postgres
+langchain-core
+langchain-groq          # Groq LLM client for LangChain/LangGraph
+langsmith                # observability/tracing
+
+# --- Database (async app layer) ---
+sqlalchemy
+asyncpg                  # async Postgres driver for SQLAlchemy (users/threads/messages)
+alembic                  # migrations
+
+# --- Database (LangGraph's own checkpointer — needs psycopg v3, NOT psycopg2) ---
+psycopg[binary]
+psycopg-pool
+
+# --- Auth ---
+passlib[bcrypt]
+python-jose[cryptography]
+python-multipart          # needed for OAuth2PasswordRequestForm / form-based login
+
+# --- Config ---
+pydantic
+pydantic-settings
+python-dotenv
+
+# --- Rate limiting ---
+slowapi
+
+# --- CORS is built into FastAPI (starlette.middleware.cors), no extra package needed
+
+# --- Dev / notebook testing ---
+jupyter
+ipykernel
+nest-asyncio              # lets you await async LangGraph/FastAPI calls inside notebook cells
