@@ -1,5 +1,6 @@
 // Change this to your deployed backend URL in production (e.g. Render URL)
-export const API_BASE = "http://localhost:8000";
+// export const API_BASE = "http://localhost:8000";
+export const API_BASE = "https://ranker-3obf.onrender.com";
 
 const TOKEN_KEY = "ai_leaderboard_token";
 
