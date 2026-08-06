@@ -27,7 +27,14 @@ body {
     border-bottom: 1px solid #e8dcc8;
 }
 
-/* Soft card used for leaderboard rows */
+/* Mobile viewport height fix: 100vh on mobile browsers includes the address
+   bar's space, which can cut off fixed-height layout content (buttons at the
+   bottom of the sidebar/chat panel). 100dvh accounts for the visible viewport
+   correctly; the plain vh line is a fallback for older browsers without dvh support. */
+.app-shell {
+    height: 100vh;
+    height: 100dvh;
+}
 .soft-card {
     background: #ffffff;
     border-radius: 12px;

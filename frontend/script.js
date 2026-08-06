@@ -539,7 +539,7 @@ function renderTable(models, meta, category) {
                 <div class="soft-card flex items-center gap-4 px-4 py-3">
                     <span class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-medium flex-shrink-0 ${RANK_BADGE[model.Rank - 1] || 'bg-cream-100 text-ink-500'}">${model.Rank}</span>
                     <i class="fa-solid ${model.icon} text-ink-400 w-4 text-center"></i>
-                    <span class="font-medium text-ink-900 whitespace-nowrap">${model.Name}</span>
+                    <span class="font-medium text-ink-900 truncate min-w-0">${model.Name}</span>
                     ${model.Rank === 1 ? `<span class="bg-terracotta-100 text-terracotta-500 text-[10px] px-2 py-0.5 rounded-full font-medium hidden sm:inline-block">SOTA</span>` : ''}
                     <span class="hidden md:inline text-sm text-ink-500 ml-2">${model.DataSource}</span>
                     <div class="ml-auto flex items-center gap-3">
