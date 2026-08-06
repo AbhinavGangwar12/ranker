@@ -9,7 +9,7 @@ llm = ChatGroq(
     api_key=settings.GROQ_API_KEY
 )
 
-def outline_node(State: State):
+async def outline_node(State: State):
     prompt = SystemMessage(content=f"""
         You are the "Query Interpreter" node in an AI agent pipeline. Your sole responsibility is to analyze the user's raw input and create a clear, structured outline that explains exactly what the user is trying to achieve. 
 
@@ -38,10 +38,10 @@ def outline_node(State: State):
         USER INPUT TO ANALYZE:
         {State.get('user_input', '')}
     """)
-    response = llm.invoke([prompt])
+    response = await llm.ainvoke([prompt])
     return {'input_outline': response.content.strip()}
 
-def general_node(State: State):
+async def general_node(State: State):
     prompt = SystemMessage(content=f"""
         You are the "GK & Reasoning Evaluator" node in an AI agent pipeline. 
         Your task is to analyze the provided query outline and determine a confidence score (from 1 to 10) indicating how successfully the user's request can be fulfilled using ONLY general knowledge (GK) and logical reasoning.
@@ -63,10 +63,10 @@ def general_node(State: State):
         INPUT OUTLINE TO ANALYZE:
         {State.get('input_outline', '')}
     """)
-    response = llm.with_structured_output(score).invoke([prompt])
+    response = await llm.with_structured_output(score).ainvoke([prompt])
     return {'worker_responses': [{'confidence': response.confidence, 'description': response.description, 'type' : 'general'}]}
 
-def mathematics_node(State: State):
+async def mathematics_node(State: State):
     prompt = SystemMessage(content=f"""
         You are the "Mathematical Evaluator" node in an AI agent pipeline. 
         Your task is to analyze the provided query outline and determine a confidence score (from 1 to 10) indicating how strongly the user's request relies on         mathematical computation, formulas, algebraic reasoning, or numerical analysis to be solved.
@@ -88,10 +88,10 @@ def mathematics_node(State: State):
         INPUT OUTLINE TO ANALYZE:
         {State.get('input_outline', '')}
     """)
-    response = llm.with_structured_output(score).invoke([prompt])
+    response = await llm.with_structured_output(score).ainvoke([prompt])
     return {'worker_responses': [{'confidence': response.confidence, 'description': response.description, 'type' : 'mathematics'}]}
 
-def coding_node(State: State):
+async def coding_node(State: State):
     prompt = SystemMessage(content=f"""
     You are the "Coding Solutions Evaluator" node in an AI agent pipeline. 
     Your task is to analyze the provided query outline and determine a confidence score (from 1 to 10) indicating how strongly the user's request requires  software programming, code generation, debugging, system architecture, or scripting to be resolved.
@@ -114,10 +114,10 @@ def coding_node(State: State):
     {State.get('input_outline', '')}
     """)
 
-    response = llm.with_structured_output(score).invoke([prompt])
+    response = await llm.with_structured_output(score).ainvoke([prompt])
     return {'worker_responses': [{'confidence': response.confidence, 'description': response.description, 'type' : 'coding'}]}
 
-def instruction_node(State: State):
+async def instruction_node(State: State):
     prompt = SystemMessage(content=f"""
     You are the "Instruction Following Evaluator" node in an AI agent pipeline. 
     Your task is to analyze the provided query outline and determine a confidence score (from 1 to 10) indicating how heavily the user's request relies on  strict instruction following, such as adhering to specific formatting rules, word limits, stylistic constraints, or step-by-step procedures.
@@ -140,10 +140,10 @@ def instruction_node(State: State):
     {State.get('input_outline', '')}
     """)
 
-    response = llm.with_structured_output(score).invoke([prompt])
+    response = await llm.with_structured_output(score).ainvoke([prompt])
     return {'worker_responses': [{'confidence': response.confidence, 'description': response.description, 'type' : 'instruction-following'}]}
 
-def multimodal_node(State: State):
+async def multimodal_node(State: State):
     prompt = SystemMessage(content=f"""
         You are the "Multimodal Evaluator" node in an AI agent pipeline. 
         Your task is to analyze the provided query outline and determine a confidence score (from 1 to 10) indicating how heavily the user's request relies on multimodal inputs or outputs (e.g., analyzing an image, processing video, generating pictures, reading audio, or complex spatial/visual formatting).
@@ -165,9 +165,9 @@ def multimodal_node(State: State):
         INPUT OUTLINE TO ANALYZE:
         {State.get('input_outline', '')}
     """)
-    response = llm.with_structured_output(score).invoke([prompt])
+    response = await llm.with_structured_output(score).ainvoke([prompt])
     return {'worker_responses': [{'confidence': response.confidence, 'description': response.description, 'type' : 'multimodal'}]}
-def longcontext_node(State: State):
+async def longcontext_node(State: State):
     prompt = SystemMessage(content=f"""
         You are the "Long Context Evaluator" node in an AI agent pipeline. 
         Your task is to analyze the provided query outline and determine a confidence score (from 1 to 10) indicating how heavily the user's request relies on processing massive amounts of text, reading large documents, analyzing entire codebases, or generating exceptionally long-form outputs.
@@ -189,10 +189,10 @@ def longcontext_node(State: State):
         INPUT OUTLINE TO ANALYZE:
         {State.get('input_outline', '')}
     """)
-    response = llm.with_structured_output(score).invoke([prompt])
+    response = await llm.with_structured_output(score).ainvoke([prompt])
     return {'worker_responses': [{'confidence': response.confidence, 'description': response.description, 'type' : 'long-context'}]}
 
-def judge(State: State):
+async def judge(State: State):
     confidence = State.get('worker_responses', [])
     sorted_ = sorted(confidence, key=lambda x : x['confidence'], reverse=True)
     sorted_confidence = sorted(confidence, key=lambda x : x['confidence'], reverse=True)[:3]
@@ -216,7 +216,7 @@ def judge(State: State):
     Top 3 Evaluator Scores:
     {'\n '.join([f"{r['confidence']}: {r['description']} : {r['type']}" for r in sorted_confidence])}
     """)
-    response = llm.invoke([prompt])
+    response = await llm.ainvoke([prompt])
     return {
         'top3suggestions' : [r['type'] for r in sorted_confidence],
         'verdict' : response.content.strip(),
