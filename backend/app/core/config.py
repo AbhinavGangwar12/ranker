@@ -15,7 +15,8 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
 
     GROQ_API_KEY: str
-    LLM_MODEL: str = "llama-3.1-8b-instant"
+    # LLM_MODEL: str = "llama-3.1-8b-instant"
+    LLM_MODEL: str = "groq/compound"
     LLM_TEMPERATURE: float = 0.5
 
     LANGCHAIN_API_KEY: str = ""
