@@ -16,7 +16,7 @@ class Settings(BaseSettings):
 
     GROQ_API_KEY: str
     # LLM_MODEL: str = "llama-3.1-8b-instant"
-    LLM_MODEL: str = "qwen3-32b"
+    LLM_MODEL: str = "qwen/qwen3.6-27b"
     LLM_TEMPERATURE: float = 0.5
 
     LANGCHAIN_API_KEY: str = ""
