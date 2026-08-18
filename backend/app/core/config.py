@@ -16,7 +16,7 @@ class Settings(BaseSettings):
 
     GROQ_API_KEY: str
     # LLM_MODEL: str = "llama-3.1-8b-instant"
-    LLM_MODEL: str = "meta-llama/llama-prompt-guard-2-22m"
+    LLM_MODEL: str = "openai/gpt-oss-20b"
     LLM_TEMPERATURE: float = 0.5
 
     LANGCHAIN_API_KEY: str = ""
