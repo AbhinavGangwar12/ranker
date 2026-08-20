@@ -1,0 +1,16 @@
+body { background:#020617; }
+.app-shell { height:100vh; height:100dvh; }
+::-webkit-scrollbar { width:8px; }
+::-webkit-scrollbar-track { background:#020617; }
+::-webkit-scrollbar-thumb { background:#1e293b; }
+::-webkit-scrollbar-thumb:hover { background:#22d3ee; }
+
+.tech-card {
+    background: linear-gradient(180deg, rgba(15,23,42,0.9), rgba(2,6,23,0.9));
+    border: 1px solid #1e293b;
+    transition: border-color .15s, box-shadow .15s;
+}
+.tech-card:hover {
+    border-color: rgba(34,211,238,0.5);
+    box-shadow: 0 0 16px rgba(34,211,238,0.12);
+}
