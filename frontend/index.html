@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Model Leaderboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: { extend: {
+                fontFamily: { sans: ['Inter','sans-serif'], mono: ['JetBrains Mono','monospace'] },
+                animation: { 'fade-in':'fadeIn .4s ease-out forwards', 'slide-up':'slideUp .5s ease-out forwards' },
+                keyframes: {
+                    fadeIn: {'0%':{opacity:'0'},'100%':{opacity:'1'}},
+                    slideUp: {'0%':{opacity:'0',transform:'translateY(16px)'},'100%':{opacity:'1',transform:'translateY(0)'}}
+                }
+            }}
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="flex flex-col app-shell overflow-hidden antialiased selection:bg-cyan-500 selection:text-black bg-slate-950 text-slate-100 font-sans">
+
+    <!-- Ad Banner -->
+    <div id="ad-banner" class="w-full flex-shrink-0 h-9 flex items-center justify-center gap-3 px-4 text-xs font-mono bg-gradient-to-r from-cyan-600 via-violet-600 to-fuchsia-600 text-white relative">
+        <i class="fa-solid fa-bolt"></i>
+        <span>AI MODEL LEADERBOARD — now tracking 50+ models across 6 domains. Try "Chat with us" to find your fit.</span>
+        <button id="ad-banner-close" class="absolute right-3 hover:opacity-70 transition-opacity"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="flex flex-1 min-h-0 overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-20 lg:w-64 flex-shrink-0 border-r border-slate-800 bg-slate-900/60 flex flex-col transition-all duration-300 z-20">
+            <div class="h-16 flex items-center justify-center lg:justify-start lg:px-6 border-b border-slate-800">
+                <div class="w-8 h-8 bg-slate-950 border border-cyan-500/50 flex items-center justify-center flex-shrink-0 shadow-[0_0_12px_rgba(34,211,238,0.4)]">
+                    <i class="fa-solid fa-bolt text-cyan-400 text-sm"></i>
+                </div>
+                <span class="ml-3 font-semibold text-lg hidden lg:block tracking-wide font-mono">AI<span class="text-cyan-400">BOARD</span></span>
+            </div>
+            <div class="flex-1 py-6 flex flex-col gap-1 px-3 overflow-y-auto">
+                <div class="text-[10px] font-mono font-semibold text-slate-500 uppercase tracking-widest mb-2 hidden lg:block px-3">Categories</div>
+                <button class="nav-btn active flex items-center gap-3 px-3 py-3 bg-cyan-500/10 border-l-2 border-cyan-400 text-cyan-300 font-medium transition-colors" id="general" data-category="general">
+                    <i class="fa-solid fa-language text-lg w-5 text-center"></i><span class="hidden lg:block text-sm">General</span>
+                </button>
+                <button class="nav-btn flex items-center gap-3 px-3 py-3 border-l-2 border-transparent text-slate-400 hover:bg-slate-800/60 hover:text-slate-100 transition-colors" id="mathematics" data-category="mathematics">
+                    <i class="fa-solid fa-square-root-variable text-lg w-5 text-center"></i><span class="hidden lg:block text-sm">Mathematics</span>
+                </button>
+                <button class="nav-btn flex items-center gap-3 px-3 py-3 border-l-2 border-transparent text-slate-400 hover:bg-slate-800/60 hover:text-slate-100 transition-colors" id="code" data-category="code">
+                    <i class="fa-solid fa-code text-lg w-5 text-center"></i><span class="hidden lg:block text-sm">Code Assistants</span>
+                </button>
+                <button class="nav-btn flex items-center gap-3 px-3 py-3 border-l-2 border-transparent text-slate-400 hover:bg-slate-800/60 hover:text-slate-100 transition-colors" id="instruction-following" data-category="instruction-following">
+                    <i class="fa-solid fa-list-check text-lg w-5 text-center"></i><span class="hidden lg:block text-sm">Instruction Following</span>
+                </button>
+                <button class="nav-btn flex items-center gap-3 px-3 py-3 border-l-2 border-transparent text-slate-400 hover:bg-slate-800/60 hover:text-slate-100 transition-colors" id="multi-tasking" data-category="multi-tasking">
+                    <i class="fa-solid fa-layer-group text-lg w-5 text-center"></i><span class="hidden lg:block text-sm">Multi-tasking</span>
+                </button>
+                <button class="nav-btn flex items-center gap-3 px-3 py-3 border-l-2 border-transparent text-slate-400 hover:bg-slate-800/60 hover:text-slate-100 transition-colors" id="long-context" data-category="long-context">
+                    <i class="fa-solid fa-book-open text-lg w-5 text-center"></i><span class="hidden lg:block text-sm">Long Context</span>
+                </button>
+                <button class="nav-btn flex items-center gap-3 px-3 py-3 border-l-2 border-transparent text-slate-400 hover:bg-slate-800/60 hover:text-slate-100 transition-colors" id="chat" data-category="chat">
+                    <i class="fa-solid fa-comments text-lg w-5 text-center"></i><span class="hidden lg:block text-sm">Chat with us</span>
+                </button>
+            </div>
+            <div class="p-4 border-t border-slate-800">
+                <button id="auth-btn" class="w-full flex items-center justify-center lg:justify-start gap-3 px-3 py-3 text-slate-400 hover:bg-slate-800/60 hover:text-slate-100 transition-colors">
+                    <i class="fa-solid fa-right-to-bracket text-lg w-5 text-center"></i><span class="hidden lg:block text-sm" id="auth-btn-label">Log in</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="flex-1 flex flex-col min-w-0 overflow-hidden relative bg-slate-950">
+            <header class="h-14 flex items-center justify-between px-4 lg:px-8 z-10 sticky top-0 border-b border-slate-800 bg-slate-950/80 backdrop-blur">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-satellite-dish text-cyan-400"></i>
+                    <span id="header-greeting" class="text-sm text-slate-300 font-mono"></span>
+                </div>
+            </header>
+            <main class="flex-1 overflow-y-auto p-4 lg:p-8 scroll-smooth" id="main-content"></main>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
